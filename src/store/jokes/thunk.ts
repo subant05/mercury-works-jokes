@@ -1,5 +1,5 @@
 import { Dispatch } from "redux"
-import { loaderActions } from "../loader/loading"
+import { loaderActions } from "../loader"
 import { IJoke } from "../../model/interface/joke"
 import { jokeActions } from "./slice"
 

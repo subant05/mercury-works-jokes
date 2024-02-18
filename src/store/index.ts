@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import JokesReducer from './jokes'
+import LoaderReducer from './loader'
 
 const store = configureStore({
     reducer: {
-        jokes: JokesReducer
+        jokes: JokesReducer,
+        loader: LoaderReducer
     }
 })
 
