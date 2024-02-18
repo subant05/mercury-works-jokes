@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getJoke } from './store/jokes/thunk';
 import { IJoke } from './model/interface/joke';
 import './App.css';
-import { Link } from '@mui/material';
+import Header from './components/header';
 
 function App() {
   const dispatch = useDispatch()
@@ -14,48 +14,39 @@ function App() {
 
   const togglePunchline = useCallback(()=>setPunchLineVisibility(punchlineVisibility=>!punchlineVisibility), [])
 
-  const handleJokeRequest = useCallback(()=>{
-    setPunchLineVisibility(false)
-    dispatch<any>(getJoke())
-  },[dispatch])
-
   if(!joke && !loader.isLoading)
     dispatch<any>(getJoke())
 
   return (
     <div className="container">
-      <div className="header">
-        <button disabled={loader.isLoading} onClick={handleJokeRequest}>GetANewRandomJoke</button>
-         <Link href="https://mwks-joke-service.azurewebsites.net/swagger/index.html">View API Docs</Link>
-      </div>
-      <hr/>
-      <div className="content">
-        {loader.isLoading ? 
-          <div className='loader'>
-              LOADING YOUR JOKE...
-          </div> :
-          joke ?  
-          <div className='joke'>
-            { joke.error ? 
-                <div className='error'>
-                  {joke.joke}
-                </div> : 
-                <div className='joke'>
-                  <div className="opening">
+        <Header onclick={()=>setPunchLineVisibility(()=>false)}></Header>
+        <hr/>
+        <div className="content">
+          {loader.isLoading ? 
+            <div className='loader'>
+                LOADING YOUR JOKE...
+            </div> :
+            joke ?  
+            <div className='joke'>
+              { joke.error ? 
+                  <div className='error'>
                     {joke.joke}
-                  </div>
-                  <button className='btn-show-punchline' onClick={togglePunchline}>
-                      Show Punchline
-                  </button>
-                  {punchlineVisibility && <div className="punch-line">
-                    {joke.punchLine}
+                  </div> : 
+                  <div className='joke'>
+                    <div className="opening">
+                      {joke.joke}
+                    </div>
+                    <button className='btn-show-punchline' onClick={togglePunchline}>
+                        Show Punchline
+                    </button>
+                    {punchlineVisibility && <div className="punch-line">
+                      {joke.punchLine}
+                    </div>}
                   </div>}
-                </div>}
-          </div>  : "" 
-        } 
-        
-      </div>
-
+            </div>  : "" 
+          } 
+          
+        </div>
     </div>
   );
 }
